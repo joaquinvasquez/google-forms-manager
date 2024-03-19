@@ -48,7 +48,7 @@ with a.html(lang="es"):
       href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap",
     )
     # a.link(rel="stylesheet", href="style.css")
-    a.style("""
+    a.style(_t="""
             *,
             *::before,
             *::after {
