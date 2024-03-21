@@ -37,7 +37,6 @@ file.close()
 # print(prices)
 # print(header)
 # print(rows)
-
 create_html_products(rows, header, cants)
 create_pdf(rows, header, prices)
 create_html(rows, header, prices)
