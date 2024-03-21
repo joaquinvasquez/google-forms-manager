@@ -16,7 +16,6 @@ def create_html(rows, header, prices):
         rel="stylesheet",
         href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap",
       )
-      # a.link(rel="stylesheet", href="style.css")
       a.style(
         _t="""
               *,
@@ -68,7 +67,7 @@ def create_html(rows, header, prices):
                 border: 2px solid #333;
               }
               table th {
-                background-color: lightsteelblue;
+                background-color: darkseagreen;
                 border: 2px solid #333;
                 padding: 10px 0;
               }
@@ -86,7 +85,7 @@ def create_html(rows, header, prices):
                 text-align: center;
               }
               table .client-name {
-                background: lightblue;
+                background: mediumseagreen;
                 overflow: hidden;
                 padding-left: 10px;
               }
@@ -106,7 +105,7 @@ def create_html(rows, header, prices):
                 font-weight: bold;
               }
               table .total-value {
-                background: lightblue;
+                background: mediumseagreen;
               }
               table .separator {
                 height: 2px;
@@ -196,5 +195,5 @@ def create_html(rows, header, prices):
   html_bytes = bytes(a)
 
   # print(html)
-  with open("index.html", "wb") as f:
+  with open("comandas.html", "wb") as f:
     f.write(bytes(html_bytes))

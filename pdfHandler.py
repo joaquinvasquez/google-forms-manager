@@ -87,4 +87,4 @@ def create_pdf(rows, header, prices):
           )
           r.cell("", style=FontFace(fill_color=(173, 216, 230)))
           r = table.row()
-  pdf.output("Comandas.pdf")
+  pdf.output("comandas.pdf")

@@ -4,6 +4,7 @@ import os
 import sys
 from htmlHandler import create_html
 from pdfHandler import create_pdf
+from productsHandler import create_html_products
 
 try:
   file = open("Solicitud de pedido.csv", encoding="utf-8")
@@ -17,7 +18,9 @@ csvreader = csv.reader(file)
 header = []
 header = next(csvreader)
 prices = []
+cants = []
 for h in header:
+  cants.append(0)
   priceKG = re.search(r"\$([0-9]+xKg)", h) or re.search(r"\$([0-9]+xKG)", h)
   price = re.search(r"\$([0-9]+)", h)
   if priceKG:
@@ -30,12 +33,15 @@ rows = []
 for row in csvreader:
   rows.append(row)
 file.close()
+
 # print(prices)
 # print(header)
 # print(rows)
 
-create_html(rows, header, prices)
+create_html_products(rows, header, cants)
 create_pdf(rows, header, prices)
+create_html(rows, header, prices)
 
-os.system("start index.html")
-os.system("start Comandas.pdf")
+os.system("start productos.html")
+os.system("start comandas.pdf")
+os.system("start comandas.html")

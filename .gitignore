@@ -1,5 +1,5 @@
 build/
 dist/
 app.spec
-Comandas.pdf
-index.html
+*.pdf
+*.html
