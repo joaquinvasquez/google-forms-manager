@@ -2,6 +2,7 @@ import re
 import csv
 import os
 import sys
+from answerChecker import answersChecker
 from htmlHandler import create_html
 from pdfHandler import create_pdf
 from productsHandler import create_html_products
@@ -34,10 +35,9 @@ for row in csvreader:
   rows.append(row)
 file.close()
 
-# print(prices)
-# print(header)
-# print(rows)
-create_html_products(rows, header, cants)
+
+answersChecker(rows, header, cants)
+create_html_products(header, cants)
 create_pdf(rows, header, prices)
 create_html(rows, header, prices)
 

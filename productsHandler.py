@@ -1,28 +1,8 @@
-import sys
 from airium import Airium
-from fractions import Fraction
 from datetime import datetime
 
 
-class colors:
-  FAIL = "\033[91m"
-  ENDC = "\033[0m"
-
-
-def create_html_products(rows, header, cants):
-  for row in rows:  # Por cada cliente
-    for i in range(6, len(row) - 1):  # Por cada producto
-      if row[i] != "":
-        try:
-          cants[i] += Fraction(row[i])
-        except ValueError:
-          print(
-            f"{colors.FAIL}La cantidad de '{header[i]}' ({row[2].strip().upper()}) es '{row[i]}' pero debería ser un número.{colors.ENDC}"
-          )
-          print("Revise el archivo 'Solicitud de pedido.csv' y corrija el error.")
-          input("Press RETURN...")
-          sys.exit()
-
+def create_html_products(header, cants):
   a = Airium()
   a("<!DOCTYPE html>")
   with a.html(lang="es"):
