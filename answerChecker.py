@@ -1,4 +1,5 @@
 from fractions import Fraction
+from string import printable
 
 
 class colors:
@@ -14,9 +15,15 @@ def answersChecker(rows, header, cants):
           print(
             f"{colors.FAIL}La cantidad de '{header[i]}' ({row[2].strip().upper()}) es '{row[i]}' pero debería ser un número.{colors.ENDC}"
           )
-          num = input("Ingrese el nuevo valor para reemplazarlo: ")
-          row[i] = num
+          row[i] = input("Ingrese el nuevo valor para reemplazarlo: ")
         cants[i] += Fraction(row[i])
+    else:
+      if set(row[-1]).difference(printable):
+        print(
+          f"{colors.FAIL}El comentario de '{row[2].strip().upper()}' contiene caracteres no permitidos.{colors.ENDC}"
+        )
+        print(f"Comentario actual: {row[-1]}")
+        row[-1] = input("Ingrese el nuevo comentario: ")
 
 
 def isValid(num):
