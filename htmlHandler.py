@@ -127,8 +127,10 @@ def create_html(rows, header, prices):
             a.th(_t="Cantidad", klass="quantity")
             a.th(_t="Producto", klass="product")
             a.th(_t="Precio", klass="value")
+            cont = 0
           for row in rows:  # Por cada cliente
-            name = row[2]
+            cont += 1
+            name = f"{cont}: " + row[2]
             phone = row[3]
             direc = row[4]
             shipping = row[5]
@@ -194,6 +196,5 @@ def create_html(rows, header, prices):
 
   html_bytes = bytes(a)
 
-  # print(html)
   with open("comandas.html", "wb") as f:
     f.write(bytes(html_bytes))

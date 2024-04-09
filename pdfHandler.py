@@ -9,11 +9,17 @@ def create_pdf(rows, header, prices):
   pdf = FPDF()
   pdf.add_page()
   pdf.set_font("Helvetica", size=14)
+  pdf.set_auto_page_break(auto=True, margin=0)
   pdf.cell(
     200, 10, f"Comandas Reverdecer {datetime.now().strftime('%d/%m/%Y')}", 0, 1, "C"
   )
   pdf.set_font("Helvetica", size=8)
+  cont = 0
   for row in rows:  # Por cada cliente
+    cont += 1
+    table_height = (len(list(filter(lambda x: x != "", row))) - 1) * 4 # calculo aproximado de la altura de la tabla
+    if pdf.will_page_break(table_height):
+      pdf.add_page()
     with pdf.unbreakable() as pdf:
       with pdf.table(
         col_widths=(40, 15, 95, 15),
@@ -26,7 +32,7 @@ def create_pdf(rows, header, prices):
         headings.cell("Cantidad")
         headings.cell("Producto")
         headings.cell("Precio")
-        name = row[2]
+        name = f"{cont}: " + row[2]
         phone = row[3]
         direc = row[4]
         shipping = row[5]

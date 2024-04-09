@@ -109,6 +109,5 @@ def create_html_products(header, cants):
 
   html_bytes = bytes(a)
 
-  # print(html)
   with open("productos.html", "wb") as f:
     f.write(bytes(html_bytes))
