@@ -81,15 +81,12 @@ def create_html(rows, header, prices):
               table .value {
                 width: 100px;
               }
-              table .number {
+              table .center {
                 text-align: center;
               }
               table .client-name {
                 background: mediumseagreen;
                 overflow: hidden;
-                padding-left: 10px;
-              }
-              table .client-info {
                 padding-left: 10px;
               }
               table .sub-total,
@@ -116,7 +113,6 @@ def create_html(rows, header, prices):
               }
   """
       )
-
     with a.body():
       with a.h1(klass="title"):
         a(f"Comandas Reverdecer {datetime.now().strftime('%d/%m/%Y')}")
@@ -130,12 +126,12 @@ def create_html(rows, header, prices):
             cont = 0
           for row in rows:  # Por cada cliente
             cont += 1
-            name = f"{cont}: " + row[2]
+            name = row[2]
             phone = row[3]
             direc = row[4]
             shipping = row[5]
             shippingPrice = re.search(r"\$([0-9]+)", shipping)
-            first = second = third = fourth = True
+            first = True
             total = 0
             for i in range(6, len(row) - 1):  # Por cada producto
               if row[i] != "":
@@ -143,51 +139,37 @@ def create_html(rows, header, prices):
                   total += Fraction(row[i]) * Fraction(prices[i])
                 with a.tr():
                   if first:
-                    a.td(_t=name, klass="client-name")
+                    a.td(_t=f"{cont}: " + name, klass="client-name")
                     first = False
-                  elif second:
-                    a.td(_t=phone, klass="client-info")
-                    second = False
-                  elif third:
-                    if direc != "":
-                      a.td(_t=direc, klass="client-info", rowspan="2")
-                      third = False
-                    else:
-                      a.td()
-                      third = fourth = False
-                  elif fourth:
-                    fourth = False
                   else:
                     a.td()
-                  a.td(_t=row[i], klass="number")
+                  a.td(_t=row[i], klass="center")
                   a.td(_t=header[i])
                   if prices[i].isdigit():
-                    a.td(_t=f"${Fraction(row[i])*Fraction(prices[i])}", klass="number")
+                    a.td(_t=f"${Fraction(row[i])*Fraction(prices[i])}", klass="center")
                   else:
                     a.td()
             else:
-              if row[-1] != "":
-                with a.tr():
-                  a.td(_t=header[-1], klass="number", colspan="2")
-                  a.td(_t=row[-1], colspan="2")
               with a.tr():
-                a.td(_t=header[5], klass="number", colspan="2")
+                a.td(_t=header[5], klass="center", colspan="2")
                 a.td(_t=shipping)
                 if shippingPrice:
-                  a.td(_t=shippingPrice.group(), klass="number")
+                  a.td(_t=shippingPrice.group(), klass="center")
                   total += Fraction(shippingPrice.group()[1:])
                 else:
                   a.td()
               with a.tr():
-                a.td()
-                a.td()
+                a.td(_t=phone, klass="center", colspan="2")
                 a.td(_t="Sub Total", klass="sub-total")
                 a.td(_t=f"${total}", klass="sub-total-value")
               with a.tr():
-                a.td()
-                a.td()
+                a.td(_t=direc, klass="center", colspan="2")
                 a.td(_t=f"Total {name}", klass="total")
                 a.td(_t="", klass="total-value")
+              if row[-1] != "":
+                with a.tr():
+                  a.td(_t=header[-1], klass="center", colspan="2")
+                  a.td(_t=row[-1], colspan="2")
               with a.tr(klass="separator"):
                 a.td()
                 a.td()

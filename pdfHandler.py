@@ -32,12 +32,12 @@ def create_pdf(rows, header, prices):
         headings.cell("Cantidad")
         headings.cell("Producto")
         headings.cell("Precio")
-        name = f"{cont}: " + row[2]
+        name = row[2]
         phone = row[3]
         direc = row[4]
         shipping = row[5]
         shippingPrice = re.search(r"\$([0-9]+)", shipping)
-        first = second = third = fourth = True
+        first = True
         total = 0
         for i in range(6, len(row) - 1):  # Por cada producto
           if row[i] != "":
@@ -45,20 +45,8 @@ def create_pdf(rows, header, prices):
               total += Fraction(row[i]) * Fraction(prices[i])
             r = table.row()
             if first:
-              r.cell(name, style=FontFace(fill_color=(173, 216, 230)))
+              r.cell(f"{cont}: " + name, style=FontFace(fill_color=(173, 216, 230)))
               first = False
-            elif second:
-              r.cell(phone, padding=(0, 0, 0, 2))
-              second = False
-            elif third:
-              if direc != "":
-                r.cell(direc, padding=(0, 0, 0, 2), rowspan=2)
-                third = False
-              else:
-                r.cell("")
-                third = fourth = False
-            elif fourth:
-              fourth = False
             else:
               r.cell("")
             r.cell(row[i])  # Cantidad
@@ -68,11 +56,7 @@ def create_pdf(rows, header, prices):
             else:
               r.cell("")
         else:
-          if row[-1] != "":  # Comentario
-            r = table.row()
-            r.cell(header[-1], colspan=2, padding=(0, 0, 0, 2))
-            r.cell(row[-1], colspan=2)
-          r = table.row()
+          r = table.row() # Envío
           r.cell(header[5], colspan=2, padding=(0, 0, 0, 2))
           r.cell(shipping)
           if shippingPrice:
@@ -81,16 +65,18 @@ def create_pdf(rows, header, prices):
           else:
             r.cell("")
           r = table.row()
-          r.cell("")
-          r.cell("")
+          r.cell(phone, padding=(0, 0, 0, 2), colspan=2)
           r.cell("Sub Total", padding=(0, 0, 0, 60))
           r.cell(f"${total}", style=FontFace(emphasis="BOLD"))
           r = table.row()
-          r.cell("")
-          r.cell("")
+          r.cell(direc, padding=(0, 0, 0, 2), colspan=2)
           r.cell(
             f"Total {name}", padding=(0, 0, 0, 60), style=FontFace(emphasis="BOLD")
           )
           r.cell("", style=FontFace(fill_color=(173, 216, 230)))
+          if row[-1] != "":  # Comentario
+            r = table.row()
+            r.cell(header[-1], colspan=2, padding=(0, 0, 0, 2))
+            r.cell(row[-1], colspan=2)
           r = table.row()
   pdf.output("comandas.pdf")
