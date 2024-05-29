@@ -17,7 +17,9 @@ def create_pdf(rows, header, prices):
   cont = 0
   for row in rows:  # Por cada cliente
     cont += 1
-    table_height = (len(list(filter(lambda x: x != "", row))) - 1) * 4 # calculo aproximado de la altura de la tabla
+    table_height = (
+      len(list(filter(lambda x: x != "", row))) - 1
+    ) * 4  # calculo aproximado de la altura de la tabla
     if pdf.will_page_break(table_height):
       pdf.add_page()
     with pdf.unbreakable() as pdf:
@@ -42,7 +44,7 @@ def create_pdf(rows, header, prices):
         for i in range(6, len(row) - 1):  # Por cada producto
           if row[i] != "":
             if prices[i].isdigit():
-              total += Fraction(row[i]) * Fraction(prices[i])
+              total += round(Fraction(row[i]) * Fraction(prices[i]))
             r = table.row()
             if first:
               r.cell(f"{cont}: " + name, style=FontFace(fill_color=(173, 216, 230)))
@@ -52,11 +54,11 @@ def create_pdf(rows, header, prices):
             r.cell(row[i])  # Cantidad
             r.cell(header[i])  # Producto
             if prices[i].isdigit():  # Precio
-              r.cell(f"${Fraction(row[i])*Fraction(prices[i])}")
+              r.cell(f"${round(Fraction(row[i])*Fraction(prices[i]))}")
             else:
               r.cell("")
         else:
-          r = table.row() # Envío
+          r = table.row()  # Envío
           r.cell(header[5], colspan=2, padding=(0, 0, 0, 2))
           r.cell(shipping)
           if shippingPrice:

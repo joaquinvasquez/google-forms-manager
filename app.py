@@ -22,10 +22,14 @@ prices = []
 cants = []
 for h in header:
   cants.append(0)
-  priceKG = re.search(r"\$([0-9]+xKg)", h) or re.search(r"\$([0-9]+xKG)", h)
+  priceKG = (
+    re.search(r"\$([0-9]+xKg)", h)
+    or re.search(r"\$([0-9]+xKG)", h)
+    or re.search(r"\$([0-9]+x500gr)", h)
+  )
   price = re.search(r"\$([0-9]+)", h)
   if priceKG:
-    prices.append(f"{priceKG.group()[1:]}")
+    prices.append(priceKG.group()[1:])
   elif price:
     prices.append(price.group()[1:])
   else:

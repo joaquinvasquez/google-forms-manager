@@ -136,7 +136,7 @@ def create_html(rows, header, prices):
             for i in range(6, len(row) - 1):  # Por cada producto
               if row[i] != "":
                 if prices[i].isdigit():
-                  total += Fraction(row[i]) * Fraction(prices[i])
+                  total += round(Fraction(row[i]) * Fraction(prices[i]))
                 with a.tr():
                   if first:
                     a.td(_t=f"{cont}: " + name, klass="client-name")
@@ -146,7 +146,10 @@ def create_html(rows, header, prices):
                   a.td(_t=row[i], klass="center")
                   a.td(_t=header[i])
                   if prices[i].isdigit():
-                    a.td(_t=f"${Fraction(row[i])*Fraction(prices[i])}", klass="center")
+                    a.td(
+                      _t=f"${round(Fraction(row[i])*Fraction(prices[i]))}",
+                      klass="center",
+                    )
                   else:
                     a.td()
             else:
