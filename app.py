@@ -22,18 +22,14 @@ prices = []
 cants = []
 for h in header:
   cants.append(0)
-  priceKG = (
-    re.search(r"\$([0-9]+xKg)", h)
-    or re.search(r"\$([0-9]+xKG)", h)
-    or re.search(r"\$([0-9]+x500gr)", h)
+  price = (
+    re.search(r"\$([0-9]+xKG)", h, re.IGNORECASE)
+    or re.search(r"\$([0-9]+x[0-9]+gr)", h, re.IGNORECASE)
+    or re.search(r"\$([0-9]+)", h)
+    or None
   )
-  price = re.search(r"\$([0-9]+)", h)
-  if priceKG:
-    prices.append(priceKG.group()[1:])
-  elif price:
-    prices.append(price.group()[1:])
-  else:
-    prices.append("")
+  prices.append(price.group()[1:] if price else "")
+
 rows = []
 for row in csvreader:
   rows.append(row)
