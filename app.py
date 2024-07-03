@@ -35,6 +35,12 @@ for row in csvreader:
   rows.append(row)
 file.close()
 
+print("Header:", header[-1])
+while header[-1] == "":
+  header.pop()
+  for row in rows:
+    row.pop()
+print("Header:", header[-1])
 
 answersChecker(rows, header, cants)
 create_html_products(header, cants)
